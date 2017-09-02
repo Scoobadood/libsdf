@@ -467,36 +467,40 @@ TSDFVolume::TSDFVolume( const std::string& file_name ) {
     bool success = true;
     std::string specific_error_message = "";
 
-    success = ifs.read( (char *) &m_size, sizeof( m_size ) );
-    if( !success ) {
+    ifs.read( (char *) &m_size, sizeof( m_size ) );
+    if( !ifs ) {
         specific_error_message = "Couldn't load file data";
+        success=false;
     } else {
         std::cout << "Loading TSDF with size " << m_size.x << "x" << m_size.y << "x" << m_size.z << std::endl;
     }
 
 
     if( success ) {
-        success = ifs.read( (char *) &m_physical_size, sizeof( m_physical_size));
-        if( success ) {
+        ifs.read( (char *) &m_physical_size, sizeof( m_physical_size));
+        if( ifs ) {
             std::cout << "  physical size is " << m_physical_size.x << "x" << m_physical_size.y << "x" << m_physical_size.z << "mm" << std::endl;
 
             // Compute voxel size
             m_voxel_size = f3_div_elem( m_physical_size, m_size );
         } else {
+	    success=false;
             specific_error_message = "Couldn't load physical size";
         }
     }
 
     // Load other header stats
-    if( success ) {
-        success = ifs.read( (char *)&m_offset, sizeof( m_offset));
-        success = success && ifs.read( (char *)&m_truncation_distance, sizeof( m_truncation_distance));
-        success = success &&ifs.read( (char *)&m_max_weight, sizeof( m_max_weight));
-        success = success &&ifs.read( (char *)&m_global_translation, sizeof( m_global_translation));
-        success = success &&ifs.read( (char *)&m_global_rotation, sizeof( m_global_rotation));
-        if( success ) {
+    if( ifs ) {
+        ifs.read( (char *)&m_offset, sizeof( m_offset));
+        ifs.read( (char *)&m_truncation_distance, sizeof( m_truncation_distance));
+        ifs.read( (char *)&m_max_weight, sizeof( m_max_weight));
+        ifs.read( (char *)&m_global_translation, sizeof( m_global_translation));
+        ifs.read( (char *)&m_global_rotation, sizeof( m_global_rotation));
+	
+        if( ifs ) {
             std::cout << "  read header data" << std::endl;
         } else {
+	    success = false;
             specific_error_message = "Couldn't load header data";
         }
     }
@@ -513,8 +517,8 @@ TSDFVolume::TSDFVolume( const std::string& file_name ) {
             cudaError_t err = cudaMalloc( &m_distances, distance_data_size );
             if( err == cudaSuccess ) {
                 // Read data into host memory, copy to device and free host memory
-                success = ifs.read( ( char * ) host_distances, distance_data_size );
-                if( success ) {
+                ifs.read( ( char * ) host_distances, distance_data_size );
+                if( ifs ) {
                     err = cudaMemcpy( m_distances, host_distances, distance_data_size, cudaMemcpyHostToDevice);
                     if( err == cudaSuccess ) {
                         std::cout << "  loaded distance data" << std::endl;
@@ -549,8 +553,8 @@ TSDFVolume::TSDFVolume( const std::string& file_name ) {
             cudaError_t err = cudaMalloc( &m_weights, weight_data_size );
             if( err == cudaSuccess ) {
                 // Read data into host memory, copy to device and free host memory
-                success = ifs.read( ( char * ) host_weights, weight_data_size );
-                if( success ) {
+                ifs.read( ( char * ) host_weights, weight_data_size );
+                if( ifs ) {
                     err = cudaMemcpy( m_weights, host_weights, weight_data_size, cudaMemcpyHostToDevice);
                     if( err == cudaSuccess ) {
                         std::cout << "  loaded weight data" << std::endl;
@@ -585,8 +589,8 @@ TSDFVolume::TSDFVolume( const std::string& file_name ) {
             cudaError_t err = cudaMalloc( &m_colours, colour_data_size );
             if( err == cudaSuccess ) {
                 // Read data into host memory, copy to device and free host memory
-                success = ifs.read( ( char * ) host_colours, colour_data_size );
-                if( success ) {
+                ifs.read( ( char * ) host_colours, colour_data_size );
+                if( ifs ) {
                     err = cudaMemcpy( m_colours, host_colours, colour_data_size, cudaMemcpyHostToDevice);
                     if( err == cudaSuccess ) {
                         std::cout << "  loaded colour data" << std::endl;
@@ -623,8 +627,8 @@ TSDFVolume::TSDFVolume( const std::string& file_name ) {
             cudaError_t err = cudaMalloc( &m_deformation_nodes, deformation_data_size );
             if( err == cudaSuccess ) {
                 // Read data into host memory, copy to device and free host memory
-                success = ifs.read( ( char * ) host_deformations, deformation_data_size );
-                if( success ) {
+                ifs.read( ( char * ) host_deformations, deformation_data_size );
+                if( ifs ) {
                     err = cudaMemcpy( m_deformation_nodes, host_deformations, deformation_data_size, cudaMemcpyHostToDevice);
                     if( err == cudaSuccess ) {
                         std::cout << "  loaded deformation data" << std::endl;
