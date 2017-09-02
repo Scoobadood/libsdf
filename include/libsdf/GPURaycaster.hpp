@@ -11,9 +11,9 @@
 
 #include <Eigen/Core>
 
-#include "Raycaster.hpp"
-#include "TSDFVolume.hpp"
-#include "DepthImage.hpp"
+#include "libsdf/Raycaster.hpp"
+#include "libsdf/TSDFVolume.hpp"
+#include "libsdf/DepthImage.hpp"
 
 
 class GPURaycaster : public Raycaster {

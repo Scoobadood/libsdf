@@ -9,7 +9,7 @@
 #ifndef TSDFVolume_hpp
 #define TSDFVolume_hpp
 
-#include "Camera.hpp"
+#include "libsdf/Camera.hpp"
 
 #include <Eigen/Core>
 #include "vector_types.h"

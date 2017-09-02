@@ -1,7 +1,7 @@
 #ifndef CUDA_COORDINATE_TRANSFORMS_HPP
 #define CUDA_COORDINATE_TRANSFORMS_HPP
 
-#include "cuda_utilities.hpp"
+#include "libsdf/cuda_utilities.hpp"
 /**
  * Convert global coordinates into pixel coordinates
  * Multiply by pose.inverse(), then K

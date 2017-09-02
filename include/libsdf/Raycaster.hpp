@@ -11,8 +11,8 @@
 
 #include <Eigen/Core>
 
-#include "TSDFVolume.hpp"
-#include "Camera.hpp"
+#include "libsdf/TSDFVolume.hpp"
+#include "libsdf/Camera.hpp"
 
     class Raycaster {
     public:
