@@ -1,0 +1,3 @@
+// the configured options and settings forKinectAvatar 
+#define VERSION_MAJOR @sdf_VERSION_MAJOR@
+#define VERSION_MINOR @sdf_VERSION_MINOR@
