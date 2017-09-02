@@ -1,11 +1,11 @@
 #include <iostream>
 #include <iomanip>
 
-#include "TSDFVolume.hpp"
-#include "GPURaycaster.hpp"
-#include "cuda_utilities.hpp"
-#include "TSDF_utilities.hpp"
-#include "PngUtilities.hpp"
+#include "libsdf/TSDFVolume.hpp"
+#include "libsdf/GPURaycaster.hpp"
+#include "libsdf/cuda_utilities.hpp"
+#include "libsdf/TSDF_utilities.hpp"
+#include "libsdf/PngUtilities.hpp"
 
 #include <Eigen/Core>
 

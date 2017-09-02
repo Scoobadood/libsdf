@@ -9,8 +9,8 @@
 #include <cmath>
 #include <iostream>
 
-#include "Camera.hpp"
-#include "Definitions.hpp"
+#include "libsdf/Camera.hpp"
+#include "libsdf/Definitions.hpp"
 
 const float EPS = 1e-6;
 

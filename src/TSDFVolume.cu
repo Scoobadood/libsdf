@@ -5,12 +5,12 @@
 //  Created by Dave on 11/03/2016.
 //  Copyright © 2016 Sindesso. All rights reserved.
 //
-#include "cuda_utilities.hpp"
-#include "cuda_coordinate_transforms.hpp"
+#include "libsdf/cuda_utilities.hpp"
+#include "libsdf/cuda_coordinate_transforms.hpp"
 
-#include "TSDFVolume.hpp"
-#include "GPURaycaster.hpp"
-#include "TSDF_utilities.hpp"
+#include "libsdf/TSDFVolume.hpp"
+#include "libsdf/GPURaycaster.hpp"
+#include "libsdf/TSDF_utilities.hpp"
 
 #include <fstream>
 #include <iomanip>

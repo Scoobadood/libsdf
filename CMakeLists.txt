@@ -5,7 +5,7 @@ set (sdf_VERSION_MAJOR 1)
 set (sdf_VERSION_MINOR 0)
 
 # Add the binary tree to the search path for inlcude files
-include_directories( "src")
+include_directories( "include")
 include_directories( "${PROJECT_BINARY_DIR}" )
 
 # Write targets to bin directory
@@ -29,7 +29,7 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 
 # configure a header file to pass some of the CMake settings
 # to the source code
-configure_file ( "src/sdfConfig.h.in" "sdfConfig.h")
+configure_file ( "include/libsdf/sdfConfig.h.in" "sdfConfig.h")
 
 # Add the binary tree to the search path for inlcude files
 file(GLOB SOURCES "src/*.cpp")
