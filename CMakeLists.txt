@@ -1,8 +1,9 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 3.8)
 
-project( sdf )
-set (sdf_VERSION_MAJOR 1)
-set (sdf_VERSION_MINOR 0)
+project( sdf 
+         VERSION  0.1
+         LANGUAGES CXX CUDA)
+
 
 # Add the binary tree to the search path for inlcude files
 include_directories( "include")
@@ -12,33 +13,27 @@ include_directories( "${PROJECT_BINARY_DIR}" )
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/../bin)
 set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/../library)
 
-# Needs CUDA
-find_package( CUDA REQUIRED )
+# configure a header file to pass some of the CMake settings
+# to the source code
+configure_file ( "include/libsdf/sdfConfig.h.in" "sdfConfig.h")
 
-# Pass options to NVCC
-set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -std=c++11 )
-set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -O3 -gencode arch=compute_52,code=sm_52)
-set(CUDA_SEPARABLE_COMPILATION ON)
-set(CUDA_PROPAGATE_HOST_FLAGS OFF)
-set(CUDA_VERBOSE_BUILD ON)
+# Configure CUDA
+set( CMAKE_CUDA_FLAGS '-arch=sm_52')
 
 # Require Eigen
 find_package(Eigen3 REQUIRED)
 include_directories(${EIGEN3_INCLUDE_DIR})
 
-
-# configure a header file to pass some of the CMake settings
-# to the source code
-configure_file ( "include/libsdf/sdfConfig.h.in" "sdfConfig.h")
-
-# Add the binary tree to the search path for inlcude files
+# Find source files and CUDA files 
 file(GLOB SOURCES "src/*.cpp")
 file(GLOB CUDA_SOURCES "src/*.cu")
 
-
-cuda_compile(CU_O ${CUDA_SOURCES})
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-
+# We're making a library
 set( LIB_TYPE STATIC )
-cuda_add_library(sdf ${LIB_TYPE} ${SOURCES} ${CU_O}) 
+add_library( sdf ${LIB_TYPE} ${SOURCES} ${CUDA_SOURCES} )
+
+target_compile_features(sdf PUBLIC cxx_std_11)
+
+set_target_properties(sdf PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+set_target_properties(sdf PROPERTIES CUDA_RESOLVE_DEVICE_SYMBOLS ON)
+
