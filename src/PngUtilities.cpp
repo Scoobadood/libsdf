@@ -220,7 +220,7 @@ bool save_png_to_file( const std::string file_name, uint32_t width, uint32_t hei
 
                     png_set_rows(png_ptr, info_ptr, row_pointers);
 
-                    png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);
+                    png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_SWAP_ENDIAN, NULL);
 
                     delete[] row_pointers;
                     png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
