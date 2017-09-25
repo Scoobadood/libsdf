@@ -18,7 +18,7 @@ set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/../library)
 configure_file ( "include/libsdf/sdfConfig.h.in" "sdfConfig.h")
 
 # Configure CUDA
-set( CMAKE_CUDA_FLAGS '-arch=sm_52')
+set( CMAKE_CUDA_FLAGS "-g -G -O0")
 
 # Require Eigen
 find_package(Eigen3 REQUIRED)
