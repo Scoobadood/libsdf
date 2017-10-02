@@ -496,6 +496,12 @@ TSDFVolume::TSDFVolume( const std::string& file_name ) {
         ifs.read( (char *)&m_max_weight, sizeof( m_max_weight));
         ifs.read( (char *)&m_global_translation, sizeof( m_global_translation));
         ifs.read( (char *)&m_global_rotation, sizeof( m_global_rotation));
+
+        std::cout << "offset      : (" << m_offset.x << "," << m_offset.y << "," << m_offset.z << ")" << std::endl;
+        std::cout << "trunc dist  : " << m_truncation_distance << std::endl; 
+        std::cout << "max weight  : " << m_max_weight << std::endl;
+        std::cout << "global t    : (" << m_global_translation.x << "," << m_global_translation.y << "," << m_global_translation.z << ")"  << std::endl;
+        std::cout << "global R    : (" << m_global_rotation.x << "," << m_global_rotation.y << "," << m_global_rotation.z << ")" << std::endl;
 	
         if( ifs ) {
             std::cout << "  read header data" << std::endl;
@@ -995,7 +1001,8 @@ bool TSDFVolume::save_to_file( const std::string & file_name) const {
         ofstream ofs { file_name, ios::out | ios::binary };
 
         // Write dimesnions
-        std::cout << "  writing "<< sizeof( m_size ) + sizeof( m_physical_size ) <<" bytes of header data" << std::endl;
+        size_t header_size = sizeof( m_size ) + sizeof( m_physical_size) + sizeof( m_offset) + sizeof( m_truncation_distance ) + sizeof( m_max_weight ) + sizeof( m_global_translation) + sizeof(m_global_rotation);
+        std::cout << "  writing "<< header_size  <<" bytes of header data" << std::endl;
         ofs.write( (char *) &m_size, sizeof( m_size ) );
         ofs.write( (char *)&m_physical_size, sizeof( m_physical_size));
         ofs.write( (char *)&m_offset, sizeof( m_offset));
